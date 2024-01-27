@@ -1,11 +1,5 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-import { CsvFile } from "@/types/CsvFile";
-import { Dispatch, SetStateAction } from "react";
+import { CSVButtonProp } from "@/types/props";
 import { DATA_var } from "./Constants";
-
-type CSVButtonProp = {
-  setCsvFile: Dispatch<SetStateAction<CsvFile>>;
-};
 
 export function LoadCSVButtonVar({ setCsvFile }: CSVButtonProp) {
   const handleLoadCSV = () => {

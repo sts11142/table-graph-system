@@ -1,11 +1,11 @@
 export type CsvRowObj = {
-  id: number,
-  name: string,
-  grade: number,
-  scoreJapanese: number,
-  scoreMath: number,
-  scoreEnglish: number,
-  scoreScience: number,
-  scoreSociety: number,
+  '番号': number,
+  '氏名': string,
+  '学年': number,
+  '国語': number,
+  '数学': number,
+  '英語': number,
+  '理科': number,
+  '社会': number,
 }
 export type CsvFile = Array<CsvRowObj>;
