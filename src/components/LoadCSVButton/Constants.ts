@@ -3,7 +3,7 @@ import { CsvFile } from "@/types/CsvFile";
 
 export const PATHS = {
   var: "",
-  local: "/Data.csv",
+  local: "Data.csv",
   remote: "http://www.mn.cis.iwate-u.ac.jp/~nakaya/report/Data.csv",
 };
 
