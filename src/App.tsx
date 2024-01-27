@@ -37,8 +37,8 @@ function App() {
         </Box>
 
         {/* <SimpleGrid columns={3} spacing={20} mb={20}> */}
-        <Box display="grid" mb={20}>
-          <ButtonGroup gap='4'>
+        <Box display="flex" mb={20}>
+          <ButtonGroup gap='8'>
             <LoadCSVButton
               handleSetCsv={handleLoadCsv}
               csvPath={FILE_PATHS.var}
