@@ -2,22 +2,22 @@ import { useState } from "react";
 import "./App.css";
 import { LoadCSVButton } from "./components/LoadCSVButton";
 import { CsvFile } from "./types/CsvFile";
-import { DATA_var, PATHS } from "./components/LoadCSVButton/Constants";
+import { SAMPLE_CSV, FILE_PATHS } from "./components/LoadCSVButton/Constants";
 import { useFetchCsv } from "./hooks/useFetchCsv";
 
 function App() {
   const [csvFile, setCsvFile] = useState<CsvFile>([]);
 
   // CSVデータを取得
-  const varCsv = DATA_var;
-  const [localCsv] = useFetchCsv(PATHS.local);
-  const [remoteCsv] = useFetchCsv(PATHS.remote);
+  const varCsv = SAMPLE_CSV;
+  const [localCsv] = useFetchCsv(FILE_PATHS.local);
+  const [remoteCsv] = useFetchCsv(FILE_PATHS.remote);
 
-  // ボタンが押されたタイミングで表示するデータを更新するクリックハンドラ
+  // ボタンが押されたタイミングで表示するデータを更新するハンドラ
   const handleLoadCsv = (path: string) => {
-    if (path === PATHS.var) setCsvFile([...varCsv]);
-    else if (path === PATHS.local) setCsvFile([...localCsv]);
-    else if (path === PATHS.remote) setCsvFile([...remoteCsv]);
+    if (path === FILE_PATHS.var) setCsvFile([...varCsv]);
+    else if (path === FILE_PATHS.local) setCsvFile([...localCsv]);
+    else if (path === FILE_PATHS.remote) setCsvFile([...remoteCsv]);
   };
 
   return (
@@ -29,17 +29,17 @@ function App() {
       <div>
         <LoadCSVButton
           handleSetCsv={handleLoadCsv}
-          csvPath={PATHS.var}
+          csvPath={FILE_PATHS.var}
         ></LoadCSVButton>
 
         <LoadCSVButton
           handleSetCsv={handleLoadCsv}
-          csvPath={PATHS.local}
+          csvPath={FILE_PATHS.local}
         ></LoadCSVButton>
 
         <LoadCSVButton
           handleSetCsv={handleLoadCsv}
-          csvPath={PATHS.remote}
+          csvPath={FILE_PATHS.remote}
         ></LoadCSVButton>
       </div>
 
