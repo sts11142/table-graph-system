@@ -1,11 +1,11 @@
 import { useState } from "react";
 import "./App.css";
-import { LoadCSVButton } from "./components/LoadCSVButton";
+import { LoadCSVButtonVar, LoadCsvButtonFile } from "./components/LoadCSVButton";
 import { CsvFile } from "./types/CsvFile";
+import { LoadCSVButtonHttp } from "./components/LoadCSVButton/LoadCSVButtonFile";
 
 function App() {
   const [csvFile, setCsvFile] = useState<CsvFile>([]);
-  console.log("refreshed")
 
   return (
     <>
@@ -14,18 +14,9 @@ function App() {
       </div>
 
       <div>
-        <LoadCSVButton
-          loadType="var"
-          setCsvFile={setCsvFile}
-        />
-        <LoadCSVButton
-          loadType="file"
-          setCsvFile={setCsvFile}
-        />
-        <LoadCSVButton
-          loadType="http"
-          setCsvFile={setCsvFile}
-        />
+        <LoadCSVButtonVar setCsvFile={setCsvFile} />
+        <LoadCsvButtonFile setCsvFile={setCsvFile} />
+        <LoadCSVButtonHttp setCsvFile={setCsvFile} />
       </div>
 
       <div>
@@ -41,7 +32,7 @@ function App() {
               <span>science: {item.scoreScience}</span>
               <span>society: {item.scoreSociety}</span>
             </div>
-          )
+          );
         })}
       </div>
     </>
