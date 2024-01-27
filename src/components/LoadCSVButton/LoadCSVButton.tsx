@@ -1,3 +1,5 @@
+import { Box, Button } from "@chakra-ui/react";
+
 type LoadCsvButtonProp = {
   handleSetCsv: (path: string) => void;
   csvPath: string;
@@ -6,9 +8,9 @@ type LoadCsvButtonProp = {
 export function LoadCSVButton({ handleSetCsv, csvPath }: LoadCsvButtonProp) {
   return (
     <>
-      <div>
-        <button onClick={() => handleSetCsv(csvPath)}>load csv from var</button>
-      </div>
+      <Box>
+        <Button onClick={() => handleSetCsv(csvPath)}>load csv from var</Button>
+      </Box>
     </>
   );
 }
