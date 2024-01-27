@@ -9,12 +9,13 @@ function App() {
   const [csvFile, setCsvFile] = useState<CsvFile>([]);
 
   // CSVデータを取得
+  const varCsv = DATA_var;
   const [localCsv] = useFetchCsv(PATHS.local);
   const [remoteCsv] = useFetchCsv(PATHS.remote);
 
   // ボタンが押されたタイミングで表示するデータを更新するクリックハンドラ
   const handleLoadCsv = (path: string) => {
-    if (path === PATHS.var) setCsvFile([...DATA_var]);
+    if (path === PATHS.var) setCsvFile([...varCsv]);
     else if (path === PATHS.local) setCsvFile([...localCsv]);
     else if (path === PATHS.remote) setCsvFile([...remoteCsv]);
   };
@@ -35,7 +36,7 @@ function App() {
           handleSetCsv={handleLoadCsv}
           csvPath={PATHS.local}
         ></LoadCSVButton>
-        
+
         <LoadCSVButton
           handleSetCsv={handleLoadCsv}
           csvPath={PATHS.remote}
