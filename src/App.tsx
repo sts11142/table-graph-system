@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import { LoadCSVButton } from "./components/LoadCSVButton";
+import { CsvFile } from "./types/CsvFile";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [csvFile, setCsvFile] = useState<CsvFile>([]);
+  console.log("refreshed")
 
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <p>Table-Graph System</p>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+
+      <div>
+        <LoadCSVButton
+          loadType="var"
+          setCsvFile={setCsvFile}
+        />
+        <LoadCSVButton
+          loadType="file"
+          setCsvFile={setCsvFile}
+        />
+        <LoadCSVButton
+          loadType="http"
+          setCsvFile={setCsvFile}
+        />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+      <div>
+        {csvFile.map((item) => {
+          return (
+            <div key={item.id + item.grade}>
+              <span>id: {item.id}</span>
+              <span>name: {item.name}</span>
+              <span>grade: {item.grade}</span>
+              <span>japanese: {item.scoreJapanese}</span>
+              <span>math: {item.scoreMath}</span>
+              <span>english: {item.scoreEnglish}</span>
+              <span>science: {item.scoreScience}</span>
+              <span>society: {item.scoreSociety}</span>
+            </div>
+          )
+        })}
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
