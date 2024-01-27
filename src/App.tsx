@@ -4,6 +4,15 @@ import { LoadCSVButton } from "./components/LoadCSVButton";
 import { CsvFile } from "./types/CsvFile";
 import { SAMPLE_CSV, FILE_PATHS } from "./components/LoadCSVButton/Constants";
 import { useFetchCsv } from "./hooks/useFetchCsv";
+import { TableView } from "./components/TableView";
+import {
+  Box,
+  ButtonGroup,
+  Container,
+  Divider,
+  Heading,
+  SimpleGrid,
+} from "@chakra-ui/react";
 
 function App() {
   const [csvFile, setCsvFile] = useState<CsvFile>([]);
@@ -22,44 +31,33 @@ function App() {
 
   return (
     <>
-      <div>
-        <h1>Table-Graph System</h1>
-      </div>
+      <Container>
+        <Box mb={20}>
+          <Heading as="h1">Table-Graph System</Heading>
+        </Box>
 
-      <div>
-        <LoadCSVButton
-          handleSetCsv={handleLoadCsv}
-          csvPath={FILE_PATHS.var}
-        ></LoadCSVButton>
+        {/* <SimpleGrid columns={3} spacing={20} mb={20}> */}
+        <Box display="flex" mb={20}>
+          <ButtonGroup gap='8'>
+            <LoadCSVButton
+              handleSetCsv={handleLoadCsv}
+              csvPath={FILE_PATHS.var}
+            ></LoadCSVButton>
+            <LoadCSVButton
+              handleSetCsv={handleLoadCsv}
+              csvPath={FILE_PATHS.local}
+            ></LoadCSVButton>
+            <LoadCSVButton
+              handleSetCsv={handleLoadCsv}
+              csvPath={FILE_PATHS.remote}
+            ></LoadCSVButton>
+          </ButtonGroup>
+        </Box>
 
-        <LoadCSVButton
-          handleSetCsv={handleLoadCsv}
-          csvPath={FILE_PATHS.local}
-        ></LoadCSVButton>
+        <Divider />
 
-        <LoadCSVButton
-          handleSetCsv={handleLoadCsv}
-          csvPath={FILE_PATHS.remote}
-        ></LoadCSVButton>
-      </div>
-
-      <div>
-        {csvFile?.map((item, index) => {
-          return (
-            <div key={item["番号"] + item["学年"]}>
-              <span>{index + 1} | </span>
-              <span>番号: {item["番号"]}</span>
-              <span>氏名: {item["氏名"]}</span>
-              <span>学年: {item["学年"]}</span>
-              <span>国語: {item["国語"]}</span>
-              <span>数学: {item["数学"]}</span>
-              <span>英語: {item["英語"]}</span>
-              <span>理科: {item["理科"]}</span>
-              <span>社会: {item["社会"]}</span>
-            </div>
-          );
-        })}
-      </div>
+        <TableView csvFile={csvFile} setCsvFile={setCsvFile} />
+      </Container>
     </>
   );
 }
