@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { CsvFile } from "@/types/CsvFile";
 
-export const localCsvFilePath = "/Data.csv";
+export const PATHS = {
+  var: "",
+  local: "/Data.csv",
+  remote: "http://www.mn.cis.iwate-u.ac.jp/~nakaya/report/Data.csv",
+};
 
 export const DATA_var: CsvFile = [
   {
