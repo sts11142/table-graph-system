@@ -1,9 +1,11 @@
 import { CSVButtonProp } from "@/types/props";
-import { DATA_file } from "./Constants";
+import { useFetchCsvLocal } from "./hooks";
 
 export function LoadCSVButtonFile({ setCsvFile }: CSVButtonProp) {
+  const [file] = useFetchCsvLocal();
+
   const handleLoadCSV = () => {
-    setCsvFile([...DATA_file]);
+    setCsvFile(file);
   };
 
   return (
