@@ -2,16 +2,19 @@ import { useState } from "react";
 import "./App.css";
 import { LoadCSVButton } from "./components/LoadCSVButton";
 import { CsvFile } from "./types/CsvFile";
-import { SAMPLE_CSV, FILE_PATHS } from "./components/LoadCSVButton/Constants";
+import { SAMPLE_CSV, FILE_PATHS } from "./components/LoadCSVButton/constants";
 import { useFetchCsv } from "./hooks/useFetchCsv";
 import { TableView } from "./components/TableView";
+import { GraphView } from "./components/GraphView";
 import {
   Box,
-  ButtonGroup,
   Container,
+  ButtonGroup,
+  SimpleGrid,
+  Text,
   Divider,
   Heading,
-  SimpleGrid,
+  Button,
 } from "@chakra-ui/react";
 
 function App() {
@@ -31,33 +34,52 @@ function App() {
 
   return (
     <>
-      <Container>
-        <Box mb={20}>
-          <Heading as="h1">Table-Graph System</Heading>
-        </Box>
+      <Box>
+        <Container maxW="12xl" centerContent>
+          {/* heading */}
+          <Box mb={20}>
+            <Heading as="h1">Table-Graph System</Heading>
+          </Box>
 
-        {/* <SimpleGrid columns={3} spacing={20} mb={20}> */}
-        <Box display="flex" mb={20}>
-          <ButtonGroup gap='8'>
-            <LoadCSVButton
-              handleSetCsv={handleLoadCsv}
-              csvPath={FILE_PATHS.var}
-            ></LoadCSVButton>
-            <LoadCSVButton
-              handleSetCsv={handleLoadCsv}
-              csvPath={FILE_PATHS.local}
-            ></LoadCSVButton>
-            <LoadCSVButton
-              handleSetCsv={handleLoadCsv}
-              csvPath={FILE_PATHS.remote}
-            ></LoadCSVButton>
-          </ButtonGroup>
-        </Box>
+          {/* load csv button */}
+          <Box display="flex" mb={10}>
+            <ButtonGroup gap="8">
+              <LoadCSVButton
+                handleSetCsv={handleLoadCsv}
+                csvPath={FILE_PATHS.var}
+              ></LoadCSVButton>
+              <LoadCSVButton
+                handleSetCsv={handleLoadCsv}
+                csvPath={FILE_PATHS.local}
+              ></LoadCSVButton>
+              <LoadCSVButton
+                handleSetCsv={handleLoadCsv}
+                csvPath={FILE_PATHS.remote}
+              ></LoadCSVButton>
+            </ButtonGroup>
+          </Box>
 
-        <Divider />
+          <Button onClick={() => setCsvFile([])} size="md" colorScheme="teal" variant="outline" mb={10}>Unload CSV</Button>
 
-        <TableView csvFile={csvFile} setCsvFile={setCsvFile} />
-      </Container>
+          <Divider />
+
+          <SimpleGrid columns={2} gap={10}>
+            {/* table */}
+            <Box>
+              <Text>Table</Text>
+              <Divider />
+              <TableView csvFile={csvFile} setCsvFile={setCsvFile} />
+            </Box>
+
+            {/* graph */}
+            <Box>
+              <p>Graph</p>
+              <Divider />
+              <GraphView csvFile={csvFile} />
+            </Box>
+          </SimpleGrid>
+        </Container>
+      </Box>
     </>
   );
 }

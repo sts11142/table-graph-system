@@ -50,12 +50,6 @@ export function TableView({ csvFile, setCsvFile }: TableProps) {
   return (
     <>
       <Box>
-        <Text>Table</Text>
-      </Box>
-
-      <Divider />
-
-      <Box>
         <TableContainer>
           <Table>
             <Thead>
