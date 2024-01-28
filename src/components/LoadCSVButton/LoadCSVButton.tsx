@@ -1,4 +1,4 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { FILE_PATHS } from "./Constants";
 
 type LoadCsvButtonProp = {
