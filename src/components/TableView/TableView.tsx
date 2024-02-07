@@ -7,8 +7,6 @@ import {
 } from "@tanstack/react-table";
 import {
   Box,
-  Text,
-  Divider,
   Table,
   TableContainer,
   Tbody,
@@ -17,17 +15,41 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 type TableProps = {
   csvFile: CsvFile;
   setCsvFile: Dispatch<SetStateAction<CsvFile>>;
 };
 
+type GroupedCsvRowObj = {
+  id: number;
+  name: string;
+  grades: CsvRowObj[];
+};
+
+type UnionedCsvRowObj = CsvRowObj | GroupedCsvRowObj;
+
+// Group by '番号' and '氏名', and nest '学年' as a subarray
+function groupByNumberAndName(data: CsvFile): GroupedCsvRowObj[] {
+  const grouped: Record<string, GroupedCsvRowObj> = {};
+
+  // Group the data by id and name
+  data.forEach((row) => {
+    const key = `${row.番号}_${row.氏名}`;
+    if (!grouped[key]) {
+      grouped[key] = { id: row["番号"], name: row["氏名"], grades: [] };
+    }
+    grouped[key].grades.push({ ...row });
+  });
+
+  return Object.values(grouped).sort((a, b) => a.id - b.id);
+}
+
 function defineColumns(csvFile: CsvFile) {
   if (csvFile.length === 0) return [];
 
-  const columns: ColumnDef<CsvRowObj>[] = [];
+  const columns: ColumnDef<UnionedCsvRowObj>[] = [];
   Object.keys(csvFile[0]).map((key) => {
     columns.push({
       accessorKey: key.toString(),
@@ -39,10 +61,16 @@ function defineColumns(csvFile: CsvFile) {
 }
 
 export function TableView({ csvFile, setCsvFile }: TableProps) {
+  const [groupedCsvFile, setGroupedCsvFile] = useState<GroupedCsvRowObj[]>([]);
+
+  useEffect(() => {
+    setGroupedCsvFile(groupByNumberAndName(csvFile));
+  }, [csvFile]);
+
   const columns = defineColumns(csvFile);
 
-  const table = useReactTable<CsvRowObj>({
-    data: csvFile,
+  const table = useReactTable<UnionedCsvRowObj>({
+    data: groupedCsvFile,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -69,38 +97,33 @@ export function TableView({ csvFile, setCsvFile }: TableProps) {
               ))}
             </Thead>
             <Tbody>
-              {table.getRowModel().rows.map((row) => (
-                <Tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <Td key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
+              {groupedCsvFile.map((group) =>
+                group.grades.map((row, rowIndex) => {
+                  const isGroupStart = rowIndex === 0;
+                  const rowSpan = group.grades.length;
+
+                  return (
+                    <Tr key={row.番号 + row.氏名 + row.学年}>
+                      {isGroupStart && (
+                        <>
+                          <Td rowSpan={rowSpan}>{row.番号}</Td>
+                          <Td rowSpan={rowSpan}>{row.氏名}</Td>
+                        </>
                       )}
-                    </Td>
-                  ))}
-                </Tr>
-              ))}
+                      <Td>{row.学年}</Td>
+                      <Td>{row.国語}</Td>
+                      <Td>{row.数学}</Td>
+                      <Td>{row.英語}</Td>
+                      <Td>{row.理科}</Td>
+                      <Td>{row.社会}</Td>
+                    </Tr>
+                  );
+                }),
+              )}
             </Tbody>
           </Table>
         </TableContainer>
       </Box>
-
-      {/* {csvFile?.map((item, index) => {
-        return (
-          <div key={item["番号"] + item["学年"]}>
-            <span>{index + 1} | </span>
-            <span>番号: {item["番号"]}</span>
-            <span>氏名: {item["氏名"]}</span>
-            <span>学年: {item["学年"]}</span>
-            <span>国語: {item["国語"]}</span>
-            <span>数学: {item["数学"]}</span>
-            <span>英語: {item["英語"]}</span>
-            <span>理科: {item["理科"]}</span>
-            <span>社会: {item["社会"]}</span>
-          </div>
-        );
-      })} */}
     </>
   );
 }
