@@ -93,7 +93,7 @@ function createOptions(csvRow: GroupedCsvRowObj) {
   return options;
 }
 
-function makeChartJSData(
+function makeChartData(
   csvFile: GroupedCsvRowObj[],
 ): [ChartData<"radar", number[], string>, object] {
   const datasets = createDatasets(csvFile);
@@ -108,7 +108,7 @@ function makeChartJSData(
 }
 
 export function GraphView({ csvFile }: GraphViewProps) {
-  const [data, options] = makeChartJSData(csvFile);
+  const [data, options] = makeChartData(csvFile);
 
   return (
     <>
