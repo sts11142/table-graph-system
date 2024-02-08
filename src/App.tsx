@@ -20,11 +20,11 @@ import {
 function groupByNumberAndName(data: CsvFile): GroupedCsvRow[] {
   const grouped: Record<string, GroupedCsvRow> = {};
 
-  // Group the data by id and name
+  // CsvRow[]を加工してGroupedCsvRow[]を作成する
   data.forEach((row) => {
     const key = `${row.番号}_${row.氏名}`;
     if (!grouped[key]) {
-      grouped[key] = { id: row["番号"], name: row["氏名"], grades: [] };
+      grouped[key] = { id: row["番号"], name: row["氏名"], grades: [], selected: false };
     }
     grouped[key].grades.push({ ...row });
   });
@@ -97,7 +97,7 @@ function App() {
               <Text>Table</Text>
               <Divider />
               {groupedCsvFile.length !== 0 ? (
-                <TableView csvFile={groupedCsvFile} />
+                <TableView csvFile={groupedCsvFile} setCsvFile={setGroupedCsvFile} />
               ) : (
                 <Text>Please load the CSV file!</Text>
               )}

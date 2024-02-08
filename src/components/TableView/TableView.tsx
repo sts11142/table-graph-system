@@ -14,30 +14,34 @@ import {
   Th,
   Thead,
   Tr,
+  Checkbox,
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
 
 type TableProps = {
   csvFile: GroupedCsvRow[];
-  setCsvFile?: Dispatch<SetStateAction<GroupedCsvRow[]>>;
+  setCsvFile: Dispatch<SetStateAction<GroupedCsvRow[]>>;
 };
 
 function defineColumns(csvFile: GroupedCsvRow[]) {
   if (csvFile.length === 0) return [];
 
   const columns: ColumnDef<GroupedCsvRow>[] = [];
-  Object.keys(csvFile[0].grades[0]).map((key) => {
+
+  const labels = ['selected', '番号', '氏名', '学年', '国語', '数学', '英語', '理科', '社会']
+
+  labels.map((key) => {
     columns.push({
       id: key.toString(),
       accessorKey: key.toString(),
-      header: key.toString(),
+      header: key === 'selected' ? '✅' : key.toString(),
     });
   });
 
   return columns;
 }
 
-export function TableView({ csvFile }: TableProps) {
+export function TableView({ csvFile, setCsvFile }: TableProps) {
   const columns = defineColumns(csvFile);
 
   const table = useReactTable<GroupedCsvRow>({
@@ -45,6 +49,17 @@ export function TableView({ csvFile }: TableProps) {
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  const handleCheckboxChange = (isChecked: boolean, selectedGroupId: number) => {
+    const updatedCsvFile = csvFile.map((group) => {
+      if (group.id === selectedGroupId) {
+        return {...group, selected: isChecked}
+      }
+      return group;
+    })
+
+    setCsvFile(updatedCsvFile);
+  }
 
   return (
     <>
@@ -77,6 +92,7 @@ export function TableView({ csvFile }: TableProps) {
                     <Tr key={row.番号 + row.氏名 + row.学年}>
                       {isGroupStart && (
                         <>
+                          <Td rowSpan={rowSpan}><Checkbox isChecked={group.selected} onChange={(e) => handleCheckboxChange(e.target.checked, group.id)} /></Td>
                           <Td rowSpan={rowSpan}>{row.番号}</Td>
                           <Td rowSpan={rowSpan}>{row.氏名}</Td>
                         </>

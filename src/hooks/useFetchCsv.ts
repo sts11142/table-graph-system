@@ -1,4 +1,4 @@
-import { CsvFile, OriginalCsvFile } from "@/types/CsvFile";
+import { CsvFile } from "@/types/CsvFile";
 import { useEffect, useState } from "react";
 import { usePapaParse } from "react-papaparse";
 
@@ -8,14 +8,6 @@ const removeLastIfEmpty = (csvFile: CsvFile): CsvFile => {
   if (newCsv.length === 0) return newCsv;  // 配列が空でないか確認
   return newCsv.filter((csvRow) => Object.keys(csvRow).length === 8);
 };
-
-function addSelectedColumn (originalCsvFile: OriginalCsvFile): CsvFile {
-  const csvFile: CsvFile = originalCsvFile.map((csvRow) => {
-    return ({...csvRow, 'selected': false})
-  })
-
-  return csvFile
-}
 
 export function useFetchCsv(path: string) {
   const [file, setFile] = useState<CsvFile>([]);
@@ -33,7 +25,7 @@ export function useFetchCsv(path: string) {
         header: true, // csvヘッダー有 の処理を行う
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         complete: (result: any) => {
-          setFile( addSelectedColumn( removeLastIfEmpty(result.data) ) );
+          setFile( removeLastIfEmpty(result.data) );
         },
       });
     };
