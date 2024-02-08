@@ -1,4 +1,4 @@
-import { CsvFile, GroupedCsvRowObj, UnionedCsvRowObj } from "@/types/CsvFile";
+import { GroupedCsvRowObj } from "@/types/CsvFile";
 import {
   ColumnDef,
   getCoreRowModel,

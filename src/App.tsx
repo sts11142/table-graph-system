@@ -34,11 +34,11 @@ function groupByNumberAndName(data: CsvFile): GroupedCsvRowObj[] {
 
 function App() {
   const [csvFile, setCsvFile] = useState<CsvFile>([]);
-  const [groupedCsvFile, setGroupedCsvFile] = useState<GroupedCsvRowObj[]>([])
+  const [groupedCsvFile, setGroupedCsvFile] = useState<GroupedCsvRowObj[]>([]);
 
   useEffect(() => {
-    setGroupedCsvFile(groupByNumberAndName(csvFile))
-  }, [csvFile])
+    setGroupedCsvFile(groupByNumberAndName(csvFile));
+  }, [csvFile]);
 
   // CSVデータを取得
   const varCsv = SAMPLE_CSV;
@@ -79,7 +79,15 @@ function App() {
             </ButtonGroup>
           </Box>
 
-          <Button onClick={() => setCsvFile([])} size="md" colorScheme="teal" variant="outline" mb={10}>Unload CSV</Button>
+          <Button
+            onClick={() => setCsvFile([])}
+            size="md"
+            colorScheme="teal"
+            variant="outline"
+            mb={10}
+          >
+            Unload CSV
+          </Button>
 
           <Divider />
 
@@ -88,14 +96,22 @@ function App() {
             <Box>
               <Text>Table</Text>
               <Divider />
-              <TableView csvFile={groupedCsvFile} />
+              {groupedCsvFile.length !== 0 ? (
+                <TableView csvFile={groupedCsvFile} />
+              ) : (
+                <Text>Please load the CSV file!</Text>
+              )}
             </Box>
 
             {/* graph */}
             <Box>
               <p>Graph</p>
               <Divider />
-              <GraphView csvFile={groupedCsvFile} />
+              {groupedCsvFile.length !== 0 ? (
+                <GraphView csvFile={groupedCsvFile} />
+              ) : (
+                <Text>Please choose a specific student!</Text>
+              )}
             </Box>
           </SimpleGrid>
         </Container>

@@ -10,13 +10,8 @@ type GraphDataset = {
   borderWidth: number;
 };
 
-function createDatasets(csvFile: GroupedCsvRowObj[]) {
+function createDatasets(csvRow: GroupedCsvRowObj) {
   const datasets: GraphDataset[] = [];
-
-  // ページ描画の初期段階ではCSVデータは存在しないため
-  if (csvFile.length === 0) return datasets;
-
-  const selectedStudent = csvFile[0];
 
   const colors = [
     { bg: "rgba(75, 192, 192, 0.2)", bdr: "rgba(75, 192, 192, 1)" }, // green
@@ -24,7 +19,7 @@ function createDatasets(csvFile: GroupedCsvRowObj[]) {
     { bg: "rgba(255, 159, 64, 0.6)", bdr: "rgba(255, 159, 64, 1)" }, // red
   ];
 
-  selectedStudent.grades.forEach((grade, i) => {
+  csvRow.grades.forEach((grade, i) => {
     const dataset = {
       label: `${grade["学年"]}年生`,
       data: [
@@ -38,7 +33,7 @@ function createDatasets(csvFile: GroupedCsvRowObj[]) {
       borderColor: colors[i].bdr,
       borderWidth: 3,
       pointStyle: "circle",
-      order: selectedStudent.grades.length - i, // 3年生のオーダー値が最小になり，グラフの一番上に描画される（ラベルも逆順になってしまう→ラベルも逆順に設定する）
+      order: csvRow.grades.length - i, // 3年生のオーダー値が最小になり，グラフの一番上に描画される（ラベルも逆順になってしまう→ラベルも逆順に設定する）
     };
 
     // datasetをdatasetsに追加
@@ -75,19 +70,19 @@ function createOptions(csvRow: GroupedCsvRowObj) {
  *    out: `[data, options]`
  */
 export function useRadarChartData(
-  csvFile: GroupedCsvRowObj[],
+  csvRow: GroupedCsvRowObj,
 ): [ChartData<"radar", number[], string>, object] {
   const data = useMemo(() => {
-    const datasets = createDatasets(csvFile);
+    const datasets = createDatasets(csvRow);
     return {
       labels: ["国語", "数学", "英語", "理科", "社会"],
       datasets: datasets,
     };
-  }, [csvFile]);
+  }, [csvRow]);
 
   const options = useMemo(() => {
-    return csvFile.length !== 0 ? createOptions(csvFile[0]) : {};
-  }, [csvFile]);
+    return createOptions(csvRow);
+  }, [csvRow]);
 
   return [data, options];
 }
