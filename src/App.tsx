@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { LoadCSVButton } from "./components/LoadCSVButton";
-import { CsvFile } from "./types/CsvFile";
+import { CsvFile, GroupedCsvRowObj } from "./types/CsvFile";
 import { SAMPLE_CSV, FILE_PATHS } from "./components/LoadCSVButton/constants";
 import { useFetchCsv } from "./hooks/useFetchCsv";
 import { TableView } from "./components/TableView";
@@ -17,8 +17,28 @@ import {
   Button,
 } from "@chakra-ui/react";
 
+function groupByNumberAndName(data: CsvFile): GroupedCsvRowObj[] {
+  const grouped: Record<string, GroupedCsvRowObj> = {};
+
+  // Group the data by id and name
+  data.forEach((row) => {
+    const key = `${row.番号}_${row.氏名}`;
+    if (!grouped[key]) {
+      grouped[key] = { id: row["番号"], name: row["氏名"], grades: [] };
+    }
+    grouped[key].grades.push({ ...row });
+  });
+
+  return Object.values(grouped).sort((a, b) => a.id - b.id);
+}
+
 function App() {
   const [csvFile, setCsvFile] = useState<CsvFile>([]);
+  const [groupedCsvFile, setGroupedCsvFile] = useState<GroupedCsvRowObj[]>([])
+
+  useEffect(() => {
+    setGroupedCsvFile(groupByNumberAndName(csvFile))
+  }, [csvFile])
 
   // CSVデータを取得
   const varCsv = SAMPLE_CSV;
@@ -68,14 +88,14 @@ function App() {
             <Box>
               <Text>Table</Text>
               <Divider />
-              <TableView csvFile={csvFile} setCsvFile={setCsvFile} />
+              <TableView csvFile={groupedCsvFile} />
             </Box>
 
             {/* graph */}
             <Box>
               <p>Graph</p>
               <Divider />
-              <GraphView csvFile={csvFile} />
+              <GraphView csvFile={groupedCsvFile} />
             </Box>
           </SimpleGrid>
         </Container>

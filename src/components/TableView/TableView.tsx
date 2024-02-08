@@ -1,4 +1,4 @@
-import { CsvFile, CsvRowObj } from "@/types/CsvFile";
+import { CsvFile, GroupedCsvRowObj, UnionedCsvRowObj } from "@/types/CsvFile";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -15,42 +15,18 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 type TableProps = {
-  csvFile: CsvFile;
-  setCsvFile: Dispatch<SetStateAction<CsvFile>>;
+  csvFile: GroupedCsvRowObj[];
+  setCsvFile?: Dispatch<SetStateAction<GroupedCsvRowObj[]>>;
 };
 
-type GroupedCsvRowObj = {
-  id: number;
-  name: string;
-  grades: CsvRowObj[];
-};
-
-type UnionedCsvRowObj = CsvRowObj | GroupedCsvRowObj;
-
-// Group by '番号' and '氏名', and nest '学年' as a subarray
-function groupByNumberAndName(data: CsvFile): GroupedCsvRowObj[] {
-  const grouped: Record<string, GroupedCsvRowObj> = {};
-
-  // Group the data by id and name
-  data.forEach((row) => {
-    const key = `${row.番号}_${row.氏名}`;
-    if (!grouped[key]) {
-      grouped[key] = { id: row["番号"], name: row["氏名"], grades: [] };
-    }
-    grouped[key].grades.push({ ...row });
-  });
-
-  return Object.values(grouped).sort((a, b) => a.id - b.id);
-}
-
-function defineColumns(csvFile: CsvFile) {
+function defineColumns(csvFile: GroupedCsvRowObj[]) {
   if (csvFile.length === 0) return [];
 
-  const columns: ColumnDef<UnionedCsvRowObj>[] = [];
-  Object.keys(csvFile[0]).map((key) => {
+  const columns: ColumnDef<GroupedCsvRowObj>[] = [];
+  Object.keys(csvFile[0].grades[0]).map((key) => {
     columns.push({
       accessorKey: key.toString(),
       header: key.toString(),
@@ -60,17 +36,11 @@ function defineColumns(csvFile: CsvFile) {
   return columns;
 }
 
-export function TableView({ csvFile, setCsvFile }: TableProps) {
-  const [groupedCsvFile, setGroupedCsvFile] = useState<GroupedCsvRowObj[]>([]);
-
-  useEffect(() => {
-    setGroupedCsvFile(groupByNumberAndName(csvFile));
-  }, [csvFile]);
-
+export function TableView({ csvFile }: TableProps) {
   const columns = defineColumns(csvFile);
 
-  const table = useReactTable<UnionedCsvRowObj>({
-    data: groupedCsvFile,
+  const table = useReactTable<GroupedCsvRowObj>({
+    data: csvFile,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -97,7 +67,7 @@ export function TableView({ csvFile, setCsvFile }: TableProps) {
               ))}
             </Thead>
             <Tbody>
-              {groupedCsvFile.map((group) =>
+              {csvFile.map((group) =>
                 group.grades.map((row, rowIndex) => {
                   const isGroupStart = rowIndex === 0;
                   const rowSpan = group.grades.length;
