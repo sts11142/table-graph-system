@@ -10,7 +10,7 @@ import {
 import { Radar } from "react-chartjs-2";
 import { Box } from "@chakra-ui/react";
 
-import { GroupedCsvRowObj } from "@/types/CsvFile";
+import { GroupedCsvRow } from "@/types/CsvFile";
 import { useRadarChartData } from "@/hooks/useRadarChartData";
 
 // setting ChartJS
@@ -24,7 +24,7 @@ ChartJS.register(
 );
 
 type GraphViewProps = {
-  csvFile: GroupedCsvRowObj[];
+  csvFile: GroupedCsvRow[];
 };
 
 export function GraphView({ csvFile }: GraphViewProps) {

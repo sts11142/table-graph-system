@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { LoadCSVButton } from "./components/LoadCSVButton";
-import { CsvFile, GroupedCsvRowObj } from "./types/CsvFile";
+import { CsvFile, GroupedCsvRow } from "./types/CsvFile";
 import { SAMPLE_CSV, FILE_PATHS } from "./components/LoadCSVButton/constants";
 import { useFetchCsv } from "./hooks/useFetchCsv";
 import { TableView } from "./components/TableView";
@@ -17,8 +17,8 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-function groupByNumberAndName(data: CsvFile): GroupedCsvRowObj[] {
-  const grouped: Record<string, GroupedCsvRowObj> = {};
+function groupByNumberAndName(data: CsvFile): GroupedCsvRow[] {
+  const grouped: Record<string, GroupedCsvRow> = {};
 
   // Group the data by id and name
   data.forEach((row) => {
@@ -34,7 +34,7 @@ function groupByNumberAndName(data: CsvFile): GroupedCsvRowObj[] {
 
 function App() {
   const [csvFile, setCsvFile] = useState<CsvFile>([]);
-  const [groupedCsvFile, setGroupedCsvFile] = useState<GroupedCsvRowObj[]>([]);
+  const [groupedCsvFile, setGroupedCsvFile] = useState<GroupedCsvRow[]>([]);
 
   useEffect(() => {
     setGroupedCsvFile(groupByNumberAndName(csvFile));

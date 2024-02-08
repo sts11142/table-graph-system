@@ -1,4 +1,4 @@
-export type CsvRowObj = {
+export type OriginalCsvRow = {
   '番号': number,
   '氏名': string,
   '学年': number,
@@ -8,16 +8,18 @@ export type CsvRowObj = {
   '理科': number,
   '社会': number,
 }
+export type CsvRow = OriginalCsvRow & { 'selected': boolean }
 
-export type CsvFile = Array<CsvRowObj>;
+export type OriginalCsvFile = OriginalCsvRow[];
+export type CsvFile = CsvRow[]
 
-export type GroupedCsvRowObj = {
+export type GroupedCsvRow = {
   id: number;
   name: string;
-  grades: CsvRowObj[];
+  grades: CsvRow[];
 };
 
-export type UnionedCsvRowObj = CsvRowObj | GroupedCsvRowObj;
-export type UnionedCsvFile = CsvRowObj[] | GroupedCsvRowObj[];
+export type UnionedCsvRowObj = CsvRow | GroupedCsvRow;
+export type UnionedCsvFile = CsvRow[] | GroupedCsvRow[];
 
 export type CsvRowLabels = ['番号', '氏名', '学年', '国語', '数学', '英語', '理科', '社会'];

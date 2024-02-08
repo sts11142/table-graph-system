@@ -1,4 +1,4 @@
-import { GroupedCsvRowObj } from "@/types/CsvFile";
+import { GroupedCsvRow } from "@/types/CsvFile";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -18,16 +18,17 @@ import {
 import { Dispatch, SetStateAction } from "react";
 
 type TableProps = {
-  csvFile: GroupedCsvRowObj[];
-  setCsvFile?: Dispatch<SetStateAction<GroupedCsvRowObj[]>>;
+  csvFile: GroupedCsvRow[];
+  setCsvFile?: Dispatch<SetStateAction<GroupedCsvRow[]>>;
 };
 
-function defineColumns(csvFile: GroupedCsvRowObj[]) {
+function defineColumns(csvFile: GroupedCsvRow[]) {
   if (csvFile.length === 0) return [];
 
-  const columns: ColumnDef<GroupedCsvRowObj>[] = [];
+  const columns: ColumnDef<GroupedCsvRow>[] = [];
   Object.keys(csvFile[0].grades[0]).map((key) => {
     columns.push({
+      id: key.toString(),
       accessorKey: key.toString(),
       header: key.toString(),
     });
@@ -39,7 +40,7 @@ function defineColumns(csvFile: GroupedCsvRowObj[]) {
 export function TableView({ csvFile }: TableProps) {
   const columns = defineColumns(csvFile);
 
-  const table = useReactTable<GroupedCsvRowObj>({
+  const table = useReactTable<GroupedCsvRow>({
     data: csvFile,
     columns,
     getCoreRowModel: getCoreRowModel(),

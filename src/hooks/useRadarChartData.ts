@@ -1,5 +1,5 @@
 import { ChartData } from "chart.js";
-import { GroupedCsvRowObj } from "@/types/CsvFile";
+import { GroupedCsvRow } from "@/types/CsvFile";
 import { useMemo } from "react";
 
 type GraphDataset = {
@@ -10,7 +10,7 @@ type GraphDataset = {
   borderWidth: number;
 };
 
-function createDatasets(csvRow: GroupedCsvRowObj) {
+function createDatasets(csvRow: GroupedCsvRow) {
   const datasets: GraphDataset[] = [];
 
   const colors = [
@@ -43,7 +43,7 @@ function createDatasets(csvRow: GroupedCsvRowObj) {
   return datasets;
 }
 
-function createOptions(csvRow: GroupedCsvRowObj) {
+function createOptions(csvRow: GroupedCsvRow) {
   const options = {
     responsive: true,
     plugins: {
@@ -63,14 +63,14 @@ function createOptions(csvRow: GroupedCsvRowObj) {
 }
 
 /** Radar Chart を描画するために必要な二つの要素を作成・返却する関数
- * 
+ *
  * Args:
- * 
- *    in : `csvFile`  
+ *
+ *    in : `csvFile`
  *    out: `[data, options]`
  */
 export function useRadarChartData(
-  csvRow: GroupedCsvRowObj,
+  csvRow: GroupedCsvRow,
 ): [ChartData<"radar", number[], string>, object] {
   const data = useMemo(() => {
     const datasets = createDatasets(csvRow);
