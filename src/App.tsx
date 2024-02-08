@@ -16,6 +16,7 @@ import {
   Heading,
   Button,
 } from "@chakra-ui/react";
+import { useSelectedGroups } from "./hooks/useSelectedGroups";
 
 function groupByNumberAndName(data: CsvFile): GroupedCsvRow[] {
   const grouped: Record<string, GroupedCsvRow> = {};
@@ -35,6 +36,7 @@ function groupByNumberAndName(data: CsvFile): GroupedCsvRow[] {
 function App() {
   const [csvFile, setCsvFile] = useState<CsvFile>([]);
   const [groupedCsvFile, setGroupedCsvFile] = useState<GroupedCsvRow[]>([]);
+  const [selectedGroupedCsvFile] = useSelectedGroups(groupedCsvFile)
 
   useEffect(() => {
     setGroupedCsvFile(groupByNumberAndName(csvFile));
@@ -54,8 +56,8 @@ function App() {
 
   return (
     <>
-      <Box>
-        <Container maxW="12xl" centerContent>
+      <Box m="0">
+        <Container centerContent>
           {/* heading */}
           <Box mb={20}>
             <Heading as="h1">Table-Graph System</Heading>
@@ -89,28 +91,28 @@ function App() {
             Unload CSV
           </Button>
 
-          <Divider />
-
-          <SimpleGrid columns={2} gap={10}>
+          <SimpleGrid columns={2} gap={10} w="80vw">
             {/* table */}
             <Box>
+              <Divider />
               <Text>Table</Text>
               <Divider />
               {groupedCsvFile.length !== 0 ? (
                 <TableView csvFile={groupedCsvFile} setCsvFile={setGroupedCsvFile} />
               ) : (
-                <Text>Please load the CSV file!</Text>
+                <Text>Please load the CSV data!</Text>
               )}
             </Box>
 
             {/* graph */}
             <Box>
+              <Divider />
               <p>Graph</p>
               <Divider />
-              {groupedCsvFile.length !== 0 ? (
-                <GraphView csvFile={groupedCsvFile} />
+              {selectedGroupedCsvFile.length !== 0 ? (
+                <GraphView csvFile={selectedGroupedCsvFile} />
               ) : (
-                <Text>Please choose a specific student!</Text>
+                <Text>Please choose specific students!</Text>
               )}
             </Box>
           </SimpleGrid>

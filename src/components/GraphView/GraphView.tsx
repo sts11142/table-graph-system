@@ -32,8 +32,10 @@ export function GraphView({ csvFile }: GraphViewProps) {
 
   return (
     <>
-      <Box mt={10}>
-        <Radar data={data} options={options} />
+      <Box mt={10} w="100%">
+        <Box height="40vh">
+          <Radar data={data} options={options} />
+        </Box>
       </Box>
     </>
   );

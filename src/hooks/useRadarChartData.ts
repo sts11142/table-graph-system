@@ -46,6 +46,7 @@ function createDatasets(csvRow: GroupedCsvRow) {
 function createOptions(csvRow: GroupedCsvRow) {
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
