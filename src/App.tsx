@@ -110,7 +110,9 @@ function App() {
               <p>Graph</p>
               <Divider />
               {selectedGroupedCsvFile.length !== 0 ? (
-                <GraphView csvFile={selectedGroupedCsvFile} />
+                selectedGroupedCsvFile.map(group => {
+                  return <GraphView selectedRow={group} key={group.id}/>
+                })
               ) : (
                 <Text>Please choose specific students!</Text>
               )}
