@@ -19,43 +19,11 @@ import {
 import { useSelectedGroups } from "@/hooks/useSelectedGroups";
 import { useGroupedCsv } from "./hooks/useGroupedCsv";
 
-// function groupByNumberAndName(data: CsvFile): GroupedCsvRow[] {
-//   const grouped: Record<string, GroupedCsvRow> = {};
-
-//   // CsvRow[]を加工してGroupedCsvRow[]を作成する
-//   data.forEach((row) => {
-//     const key = `${row.番号}_${row.氏名}`;
-//     if (!grouped[key]) {
-//       grouped[key] = {
-//         id: row["番号"],
-//         name: row["氏名"],
-//         grades: [],
-//         selected: false,
-//       };
-//     }
-//     grouped[key].grades.push({ ...row });
-//   });
-
-//   return Object.values(grouped).sort((a, b) => a.id - b.id);
-// }
-
 function App() {
   const [csvPath, setCsvPath] = useState<PathValues>("");
 
   const [groupedCsvFile, setGroupedCsvFile] = useGroupedCsv(csvPath)
   const [selectedGroupedCsvFile] = useSelectedGroups(groupedCsvFile);
-
-  // CSVデータを取得
-  // const varCsv = SAMPLE_CSV;
-  // const [localCsv] = useFetchCsv(FILE_PATHS.local);
-  // const [remoteCsv] = useFetchCsv(FILE_PATHS.remote);
-
-  // // ボタンが押されたタイミングで表示するデータを更新するハンドラ
-  // const handleLoadCsv = (path: string) => {
-  //   if (path === FILE_PATHS.var) setCsvFile([...varCsv]);
-  //   else if (path === FILE_PATHS.local) setCsvFile([...localCsv]);
-  //   else if (path === FILE_PATHS.remote) setCsvFile([...remoteCsv]);
-  // };
 
   return (
     <>

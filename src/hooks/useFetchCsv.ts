@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FILE_PATHS, PathValues, SAMPLE_CSV } from "@/components/LoadCSVButton/Constants";
 import { CsvFile } from "@/types/CsvFile";
 import { useEffect, useState } from "react";
@@ -24,7 +25,6 @@ export function useFetchCsv(path: PathValues) {
       readString(csvString, {
         worker: true,
         header: true, // csvヘッダー有 の処理を行う
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         complete: (result: any) => {
           setFile(removeLastIfEmpty(result.data));
         },
