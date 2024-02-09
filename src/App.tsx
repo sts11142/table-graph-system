@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { CsvFile, GroupedCsvRow } from "@/types/CsvFile";
 import { LoadCSVButton } from "@/components/LoadCSVButton";
-import { SAMPLE_CSV, FILE_PATHS } from "@/components/LoadCSVButton/constants.ts";
+import { SAMPLE_CSV, FILE_PATHS } from "@/components/LoadCSVButton/Constants";
 import { useFetchCsv } from "@/hooks/useFetchCsv";
 import { TableView } from "@/components/TableView";
 import { GraphView } from "@/components/GraphView";
@@ -25,7 +25,12 @@ function groupByNumberAndName(data: CsvFile): GroupedCsvRow[] {
   data.forEach((row) => {
     const key = `${row.番号}_${row.氏名}`;
     if (!grouped[key]) {
-      grouped[key] = { id: row["番号"], name: row["氏名"], grades: [], selected: false };
+      grouped[key] = {
+        id: row["番号"],
+        name: row["氏名"],
+        grades: [],
+        selected: false,
+      };
     }
     grouped[key].grades.push({ ...row });
   });
@@ -36,7 +41,7 @@ function groupByNumberAndName(data: CsvFile): GroupedCsvRow[] {
 function App() {
   const [csvFile, setCsvFile] = useState<CsvFile>([]);
   const [groupedCsvFile, setGroupedCsvFile] = useState<GroupedCsvRow[]>([]);
-  const [selectedGroupedCsvFile] = useSelectedGroups(groupedCsvFile)
+  const [selectedGroupedCsvFile] = useSelectedGroups(groupedCsvFile);
 
   useEffect(() => {
     setGroupedCsvFile(groupByNumberAndName(csvFile));
@@ -98,7 +103,10 @@ function App() {
               <Text>Table</Text>
               <Divider />
               {groupedCsvFile.length !== 0 ? (
-                <TableView csvFile={groupedCsvFile} setCsvFile={setGroupedCsvFile} />
+                <TableView
+                  csvFile={groupedCsvFile}
+                  setCsvFile={setGroupedCsvFile}
+                />
               ) : (
                 <Text>Please load the CSV data!</Text>
               )}
@@ -110,8 +118,8 @@ function App() {
               <p>Graph</p>
               <Divider />
               {selectedGroupedCsvFile.length !== 0 ? (
-                selectedGroupedCsvFile.map(group => {
-                  return <GraphView selectedRow={group} key={group.id}/>
+                selectedGroupedCsvFile.map((group) => {
+                  return <GraphView selectedRow={group} key={group.id} />;
                 })
               ) : (
                 <Text>Please choose specific students!</Text>
