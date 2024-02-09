@@ -1,3 +1,4 @@
+import { FILE_PATHS, PathValues, SAMPLE_CSV } from "@/components/LoadCSVButton/Constants";
 import { CsvFile } from "@/types/CsvFile";
 import { useEffect, useState } from "react";
 import { usePapaParse } from "react-papaparse";
@@ -5,11 +6,11 @@ import { usePapaParse } from "react-papaparse";
 const removeLastIfEmpty = (csvFile: CsvFile): CsvFile => {
   // 読み取ったファイルの最終行が空行だった場合，その行のrowデータを削除する
   const newCsv = [...csvFile];
-  if (newCsv.length === 0) return newCsv;  // 配列が空でないか確認
+  if (newCsv.length === 0) return newCsv; // 配列が空でないか確認
   return newCsv.filter((csvRow) => Object.keys(csvRow).length === 8);
 };
 
-export function useFetchCsv(path: string) {
+export function useFetchCsv(path: PathValues) {
   const [file, setFile] = useState<CsvFile>([]);
   const { readString } = usePapaParse();
 
@@ -25,12 +26,17 @@ export function useFetchCsv(path: string) {
         header: true, // csvヘッダー有 の処理を行う
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         complete: (result: any) => {
-          setFile( removeLastIfEmpty(result.data) );
+          setFile(removeLastIfEmpty(result.data));
         },
       });
     };
 
-    fetchFile(path);
+    path === FILE_PATHS.init
+      ? setFile([])
+      : path === FILE_PATHS.var
+        ? setFile(SAMPLE_CSV)
+        : fetchFile(path);
+
   }, [path, readString]);
 
   return [file];

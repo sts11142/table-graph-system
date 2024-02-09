@@ -1,11 +1,18 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { CsvFile } from "@/types/CsvFile";
 
+type Keys<T> = keyof T
+type Values<T> = T[Keys<T>]
+
 export const FILE_PATHS = {
-  var: "",
+  init: "",
+  var: "var",
   local: "Data.csv",
   remote: import.meta.env.VITE_REMOTE_CSV_URL,
 } as const;
+
+export type PathValues = Values<typeof FILE_PATHS>  // 環境変数のせいでstring型になるが，本来は定数のユニオン型になる
+
 
 export const SAMPLE_CSV: CsvFile = [
   {
