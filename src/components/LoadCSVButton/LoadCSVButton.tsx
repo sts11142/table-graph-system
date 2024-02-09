@@ -1,5 +1,5 @@
 import { Button } from "@chakra-ui/react";
-import { FILE_PATHS } from "@/components/LoadCSVButton/constants";
+import { FILE_PATHS } from "@/components/LoadCSVButton/constants.ts";
 
 type LoadCsvButtonProp = {
   handleSetCsv: (path: string) => void;

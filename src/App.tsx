@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { CsvFile, GroupedCsvRow } from "@/types/CsvFile";
 import { LoadCSVButton } from "@/components/LoadCSVButton";
-import { SAMPLE_CSV, FILE_PATHS } from "@/components/LoadCSVButton/constants";
+import { SAMPLE_CSV, FILE_PATHS } from "@/components/LoadCSVButton/constants.ts";
 import { useFetchCsv } from "@/hooks/useFetchCsv";
 import { TableView } from "@/components/TableView";
 import { GraphView } from "@/components/GraphView";
@@ -16,7 +16,7 @@ import {
   Heading,
   Button,
 } from "@chakra-ui/react";
-import { useSelectedGroups } from "@/hooks/useSelectedGroups";
+import { useSelectedGroups } from "@/hooks/useSelectedGroups.ts";
 
 function groupByNumberAndName(data: CsvFile): GroupedCsvRow[] {
   const grouped: Record<string, GroupedCsvRow> = {};
