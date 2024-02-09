@@ -1,5 +1,5 @@
 import { Button } from "@chakra-ui/react";
-import { FILE_PATHS } from "./Constants";
+import { FILE_PATHS } from "./constants";
 
 type LoadCsvButtonProp = {
   handleSetCsv: (path: string) => void;
@@ -17,7 +17,11 @@ export function LoadCSVButton({ handleSetCsv, csvPath }: LoadCsvButtonProp) {
   return (
     <>
       <Button colorScheme="teal" onClick={() => handleSetCsv(csvPath)}>
-        load csv from: <span style={{ color: "#eeeeee", fontWeight: 'bold' }}> {loadedBy}</span>
+        Load CSV from:{" "}
+        <span style={{ color: "#eeeeee", fontWeight: "bold" }}>
+          {" "}
+          {loadedBy}
+        </span>
       </Button>
     </>
   );

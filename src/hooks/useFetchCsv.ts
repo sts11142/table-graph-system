@@ -25,7 +25,7 @@ export function useFetchCsv(path: string) {
         header: true, // csvヘッダー有 の処理を行う
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         complete: (result: any) => {
-          setFile(removeLastIfEmpty(result.data));
+          setFile( removeLastIfEmpty(result.data) );
         },
       });
     };
