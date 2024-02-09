@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { CsvFile, GroupedCsvRow } from "src/types/CsvFile";
-import { LoadCSVButton } from "src/components/LoadCSVButton";
-import { SAMPLE_CSV, FILE_PATHS } from "src/components/LoadCSVButton/constants";
-import { useFetchCsv } from "src/hooks/useFetchCsv";
-import { TableView } from "src/components/TableView";
-import { GraphView } from "src/components/GraphView";
+import { CsvFile, GroupedCsvRow } from "@/types/CsvFile";
+import { LoadCSVButton } from "@/components/LoadCSVButton";
+import { SAMPLE_CSV, FILE_PATHS } from "@/components/LoadCSVButton/constants";
+import { useFetchCsv } from "@/hooks/useFetchCsv";
+import { TableView } from "@/components/TableView";
+import { GraphView } from "@/components/GraphView";
 import {
   Box,
   Container,
