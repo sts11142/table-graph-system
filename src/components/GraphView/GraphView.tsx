@@ -12,7 +12,6 @@ import { Box } from "@chakra-ui/react";
 
 import { GroupedCsvRow } from "@/types/CsvFile";
 import { useRadarChartData } from "@/hooks/useRadarChartData";
-import { TypedChartComponent } from "node_modules/react-chartjs-2/dist/types";
 
 // setting ChartJS
 ChartJS.register(

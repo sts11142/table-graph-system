@@ -29,8 +29,8 @@ function createDatasets(csvRow: GroupedCsvRow) {
         grade["理科"],
         grade["社会"],
       ],
-      backgroundColor: colors[i].bg,
-      borderColor: colors[i].bdr,
+      backgroundColor: colors[grade.学年 - 1].bg,  // 0: 1年, 1: 2年, 2: 3年
+      borderColor: colors[grade.学年 - 1].bdr,  // 0: 1年, 1: 2年, 2: 3年
       borderWidth: 3,
       pointStyle: "circle",
       order: csvRow.grades.length - i, // 3年生のオーダー値が最小になり，グラフの一番上に描画される（ラベルも逆順になってしまう→ラベルも逆順に設定する）
