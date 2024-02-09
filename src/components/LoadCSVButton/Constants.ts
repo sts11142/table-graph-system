@@ -4,7 +4,7 @@ import { CsvFile } from "@/types/CsvFile";
 export const FILE_PATHS = {
   var: "",
   local: "Data.csv",
-  remote: "//www.mn.cis.iwate-u.ac.jp/~nakaya/report/Data.csv",
+  remote: import.meta.env.VITE_REMOTE_CSV_URL,
 } as const;
 
 export const SAMPLE_CSV: CsvFile = [
