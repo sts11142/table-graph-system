@@ -10,6 +10,7 @@ export const FILE_PATHS = {
   local: "Data.csv",
   remote: import.meta.env.VITE_REMOTE_CSV_URL,
 } as const;
+// in .env.local(ignored file):  `VITE_REMOTE_CSV_URL = "//www.mn.cis.iwate-u.ac.jp/~nakaya/report/Data.csv"`
 
 export type PathValues = Values<typeof FILE_PATHS>  // 環境変数のせいでstring型になるが，本来は定数のユニオン型になる
 
