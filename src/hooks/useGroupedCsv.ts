@@ -3,6 +3,7 @@ import { useState, useEffect, Dispatch } from "react";
 import { GroupedCsvRow, CsvFile } from "@/types/CsvFile";
 import { useFetchCsv } from "./useFetchCsv";
 import { PathValues } from "@/components/LoadCSVButton/Constants";
+import { useCalcOf } from "./useCalcAvg";
 
 function groupByNumberAndName(data: CsvFile): GroupedCsvRow[] {
   const grouped: Record<string, GroupedCsvRow> = {};
@@ -27,9 +28,13 @@ function groupByNumberAndName(data: CsvFile): GroupedCsvRow[] {
 export function useGroupedCsv(csvPath: PathValues): [GroupedCsvRow[], Dispatch<React.SetStateAction<GroupedCsvRow[]>>] {
     const [csvFile] = useFetchCsv(csvPath);  // path をもとにCSVを定義する
     const [groupedCsvFile, setGroupedCsvFile] = useState<GroupedCsvRow[]>([]);  // CSVファイルを保持するステート
+    const [avgRow] = useCalcOf('avg', groupedCsvFile)
+    const [maxRow] = useCalcOf('max', groupedCsvFile)
+    // const [minRow] = useCalcOf('min', groupedCsvFile)
     
     useEffect(() => {
-      setGroupedCsvFile(groupByNumberAndName(csvFile))
+      console.log("avg: ", avgRow)
+      setGroupedCsvFile(() => [...groupByNumberAndName(csvFile), maxRow])
     }, [csvFile])
 
     return [groupedCsvFile, setGroupedCsvFile]
